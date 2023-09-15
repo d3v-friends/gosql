@@ -1,9 +1,0 @@
-{
-  "tableNm": "users",
-  "columns": {
-    "id": {
-      "gotype": "int64",
-      "comment": "아이디"
-    }
-  }
-}
