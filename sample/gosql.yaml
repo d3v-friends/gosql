@@ -1,0 +1,40 @@
+version: 0.0.1
+out: ../models
+driver: mysql5
+schema: local_gosql
+type:
+  decimal:
+    dType: decimal
+    gType: github.com/shopspring/decimal.Decimal
+model:
+  user:
+    column:
+      id: "uuid(36)"
+      username: "string(50)"
+      nickname: "*string(50)"
+      salt: "string(500)"
+      saltedPassword: "string(500)"
+    datetime: [ "createdAt", "updatedAt" ]
+    index:
+      - columns: [ [ "username", "asc" ] ]
+        unique: true
+    relation:
+      - from: wallet
+        as: wallets
+        localField: id
+        foreignField: userId
+        has: many
+  wallet:
+    column:
+      id: "uuid(36)"
+      userId: "uuid(36)"
+      balance: "decimal(20,3)"
+    datetime: [ "createdAt", "updatedAt" ]
+    index:
+      - columns: [ [ "userId", "asc" ], ["id", "asc"] ]
+    relation:
+      - from: user
+        as: user
+        localField: userId
+        foreignField: id
+        has: one
